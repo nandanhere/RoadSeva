@@ -1,10 +1,9 @@
 import 'dart:io';
+import 'package:road_seva/models/place.dart';
+import 'package:road_seva/widgets/place_input.dart';
 
 import 'package:flutter/material.dart';
-import 'package:great_places_app/widgets/image_input.dart';
-import 'package:great_places_app/widgets/place_input.dart';
-import '../provider/user_placesProvider.dart';
-import 'package:provider/provider.dart';
+import 'package:road_seva/widgets/image_input.dart';
 
 class AddPlaceScreen extends StatefulWidget {
   static const String routeName = "/add-place-screen";
@@ -24,13 +23,10 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   }
 
   void _savePlace() {
-    if (_titleController.text.isEmpty ||
-        _pickedImage == null ||
-        _pickedLocation == null) {
+    if (_titleController.text.isEmpty || _pickedImage == null) {
       return;
     }
-    Provider.of<GreatPlaces>(context, listen: false)
-        .addPlace(_titleController.text, _pickedImage, _pickedLocation);
+
     Navigator.of(context).pop();
   }
 
