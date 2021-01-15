@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>618532480016-o5qk5kqb0bbs84tn9b5ldvpoa6ip93ju.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.618532480016-o5qk5kqb0bbs84tn9b5ldvpoa6ip93ju</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA7OgcofoLqVegWZrEX4-ZLp4XJ3ecvfKc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>618532480016</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>io.flutter.flutter.app</string>
+	<key>PROJECT_ID</key>
+	<string>road-seva-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>road-seva-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:618532480016:ios:dd5233f49d5cc009731695</string>
+</dict>
+</plist>

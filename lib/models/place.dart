@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 
-class PotHoleDetails {
+class PotHole {
   final double latitude, longitude;
   final String address;
   final String url;
-  const PotHoleDetails(
+  const PotHole(
       {@required this.latitude,
       @required this.longitude,
       this.address,
@@ -15,7 +15,7 @@ class PotHoleDetails {
 class Place {
   final String id;
   final String title;
-  final PotHoleDetails location;
+  final PotHole location;
   final File image;
   Place(
       {@required this.id,

@@ -18,7 +18,7 @@ class ComplaintRegisterScreen extends StatefulWidget {
 class _ComplaintRegisterScreenState extends State<ComplaintRegisterScreen> {
   final _titleController = TextEditingController();
   File _pickedImage;
-  PlaceLocation _pickedLocation;
+  PotHole _pickedLocation;
   void _selectImage(File pickedImage) {
     _pickedImage = pickedImage;
   }
@@ -32,7 +32,7 @@ class _ComplaintRegisterScreenState extends State<ComplaintRegisterScreen> {
   }
 
   void _selectPlace(double lat, double long) {
-    _pickedLocation = PlaceLocation(latitude: lat, longitude: long);
+    _pickedLocation = PotHole(latitude: lat, longitude: long);
   }
 
   @override
