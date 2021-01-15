@@ -3,8 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
-  final void Function(String email, String password, String userName,
-      bool isLogin, BuildContext ctx, File imageFile) submitData;
+  final void Function(
+    String email,
+    String password,
+    String userName,
+    bool isLogin,
+    BuildContext ctx,
+  ) submitData;
   final bool isLoading;
   const AuthForm({Key key, this.submitData, this.isLoading}) : super(key: key);
 
@@ -18,16 +23,12 @@ class _AuthFormState extends State<AuthForm> {
   String _userEmail = "";
   String _userName = "";
   String _userPassword = "";
-  File _userImageFile;
-  void _pickedImage(File image) {
-    _userImageFile = image;
-  }
 
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
     print("trying" + isValid.toString());
 
-    if (!_isLogin && _userImageFile == null) {
+    if (!_isLogin) {
       final scaffoldMessenger = ScaffoldMessenger.of(context);
       scaffoldMessenger.showSnackBar(
         SnackBar(
@@ -38,13 +39,17 @@ class _AuthFormState extends State<AuthForm> {
         ),
       );
     }
-    if ((isValid && _userImageFile != null && !_isLogin) ||
-        (_isLogin && isValid)) {
+    if ((isValid && !_isLogin) || (_isLogin && isValid)) {
       FocusScope.of(context).unfocus();
       _formKey.currentState.save();
 
-      widget.submitData(_userEmail.trim(), _userPassword, _userName.trim(),
-          _isLogin, context, _userImageFile);
+      widget.submitData(
+        _userEmail.trim(),
+        _userPassword,
+        _userName.trim(),
+        _isLogin,
+        context,
+      );
     }
   }
 

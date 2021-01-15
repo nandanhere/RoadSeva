@@ -18,8 +18,13 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final auth = FirebaseAuth.instance;
   var _isLoading = false;
-  void _submitAuthForm(String email, String password, String userName,
-      bool isLogin, BuildContext ctx, File imageFile) async {
+  void _submitAuthForm(
+    String email,
+    String password,
+    String userName,
+    bool isLogin,
+    BuildContext ctx,
+  ) async {
     print("Authentication");
 
 // authResult was named UserCredential
@@ -34,10 +39,7 @@ class _AuthScreenState extends State<AuthScreen> {
       } else {
         authResult = await auth.createUserWithEmailAndPassword(
             email: email, password: password);
-        final reference = FirebaseStorage.instance.ref().child('userImages').child(
-            '${authResult.user.uid}.jpg'); // this returns a storage reference in firestore
-        await reference.putFile(
-            imageFile); // this code had .onComplete before. but in newer version of firebaseStorage it is no longer needed.
+        // this code had .onComplete before. but in newer version of firebaseStorage it is no longer needed.
         FirebaseFirestore.instance
             .collection('users')
             .doc(authResult.user.uid)
