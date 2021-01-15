@@ -52,7 +52,7 @@ class _LocationInputState extends State<LocationInput> {
       MaterialPageRoute(
         fullscreenDialog: true,
         builder: (context) => MapScreen(
-          initialLocation: PlaceLocation(
+          initialLocation: PotHoleDetails(
               latitude: locData.latitude, longitude: locData.longitude),
           isSelecting: true,
         ),

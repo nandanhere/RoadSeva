@@ -3,12 +3,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:road_seva/models/place.dart';
 
 class MapScreen extends StatefulWidget {
-  final PlaceLocation initialLocation;
+  final PotHoleDetails initialLocation;
   final bool isSelecting;
 
   MapScreen(
       {this.initialLocation =
-          const PlaceLocation(latitude: 37.422, longitude: -122.22),
+          const PotHoleDetails(latitude: 37.422, longitude: -122.22),
       this.isSelecting});
 
   @override
