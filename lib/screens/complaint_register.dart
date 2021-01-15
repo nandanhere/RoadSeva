@@ -5,16 +5,17 @@ import 'package:road_seva/widgets/place_input.dart';
 import 'package:flutter/material.dart';
 import 'package:road_seva/widgets/image_input.dart';
 
-class AddPlaceScreen extends StatefulWidget {
-  static const String routeName = "/add-place-screen";
+class ComplaintRegisterScreen extends StatefulWidget {
+  static const String routeName = "/complaint-screen";
 
-  AddPlaceScreen({Key key}) : super(key: key);
+  ComplaintRegisterScreen({Key key}) : super(key: key);
 
   @override
-  _AddPlaceScreenState createState() => _AddPlaceScreenState();
+  _ComplaintRegisterScreenState createState() =>
+      _ComplaintRegisterScreenState();
 }
 
-class _AddPlaceScreenState extends State<AddPlaceScreen> {
+class _ComplaintRegisterScreenState extends State<ComplaintRegisterScreen> {
   final _titleController = TextEditingController();
   File _pickedImage;
   PlaceLocation _pickedLocation;
