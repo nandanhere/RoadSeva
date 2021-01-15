@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:road_seva/widgets/list_pothole.dart';
 
@@ -45,6 +46,26 @@ class PotHolesNearMe extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Road Problems Near me "),
+        actions: [
+          DropdownButton(
+            onChanged: (itemIdentifier) {
+              if (itemIdentifier == 'Logout') {
+                FirebaseAuth.instance.signOut();
+              }
+            },
+            items: [
+              DropdownMenuItem(
+                value: 'Logout',
+                child: Container(
+                  child: Row(
+                    children: [Icon(Icons.exit_to_app), Text("Logout")],
+                  ),
+                ),
+              ),
+            ],
+            icon: Icon(Icons.more_horiz),
+          )
+        ],
       ),
       body: potHoleList,
     );

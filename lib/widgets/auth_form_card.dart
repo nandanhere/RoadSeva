@@ -28,17 +28,6 @@ class _AuthFormState extends State<AuthForm> {
     final isValid = _formKey.currentState.validate();
     print("trying" + isValid.toString());
 
-    if (!_isLogin) {
-      final scaffoldMessenger = ScaffoldMessenger.of(context);
-      scaffoldMessenger.showSnackBar(
-        SnackBar(
-          backgroundColor: Theme.of(context).errorColor,
-          content: Text(
-            "Please select user Image",
-          ),
-        ),
-      );
-    }
     if ((isValid && !_isLogin) || (_isLogin && isValid)) {
       FocusScope.of(context).unfocus();
       _formKey.currentState.save();
