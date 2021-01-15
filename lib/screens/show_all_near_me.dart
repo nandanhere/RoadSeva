@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:road_seva/helpers/location_helper.dart';
 import 'package:road_seva/widgets/list_pothole.dart';
 
 class PotHolesNearMe extends StatelessWidget {
@@ -23,28 +24,35 @@ class PotHolesNearMe extends StatelessWidget {
             );
           }
           final potholeDoc = snapshot.data.documents;
-          return Center(
-            child: ListView.builder(
-                reverse: true,
-                itemCount: potholeDoc.length,
-                itemBuilder: (ctx, index) {
-                  QueryDocumentSnapshot potholeData = potholeDoc[index];
-                  return Container(
-                    margin: index == potholeDoc.length - 1
-                        ? EdgeInsets.only(top: 20)
-                        : null,
-                    child: ListPotHole(
-                      documentSnapshot: potholeData,
-                    ),
-                  );
-                }),
-          );
+          return ListView.builder(
+              reverse: true,
+              shrinkWrap: true,
+              itemCount: potholeDoc.length,
+              itemBuilder: (ctx, index) {
+                QueryDocumentSnapshot potholeData = potholeDoc[index];
+                return Container(
+                  margin: index == potholeDoc.length - 1
+                      ? EdgeInsets.only(top: 20)
+                      : null,
+                  child: ListPotHole(
+                    documentSnapshot: potholeData,
+                  ),
+                );
+              });
         },
       ),
     );
     return Scaffold(
       appBar: AppBar(
-        title: Text("Road Problems Near me "),
+        title: Text(
+          "Potholes Near Me",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Color(0xfff0f0f0),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20))),
       ),
       body: potHoleList,
     );
