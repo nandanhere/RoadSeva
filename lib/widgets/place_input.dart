@@ -53,10 +53,7 @@ class _LocationInputState extends State<LocationInput> {
         fullscreenDialog: true,
         builder: (context) => MapScreen(
           initialLocation: PotHoleDetails(
-              latitude: locData.latitude,
-              longitude: locData.longitude,
-              address: "",
-              url: ""),
+              latitude: locData.latitude, longitude: locData.longitude),
           isSelecting: true,
         ),
       ),

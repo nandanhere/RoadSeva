@@ -3,13 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
-  final void Function(
-    String email,
-    String password,
-    String userName,
-    bool isLogin,
-    BuildContext ctx,
-  ) submitData;
+  final void Function(String email, String password, String userName,
+      bool isLogin, BuildContext ctx) submitData;
   final bool isLoading;
   const AuthForm({Key key, this.submitData, this.isLoading}) : super(key: key);
 
@@ -43,13 +38,8 @@ class _AuthFormState extends State<AuthForm> {
       FocusScope.of(context).unfocus();
       _formKey.currentState.save();
 
-      widget.submitData(
-        _userEmail.trim(),
-        _userPassword,
-        _userName.trim(),
-        _isLogin,
-        context,
-      );
+      widget.submitData(_userEmail.trim(), _userPassword, _userName.trim(),
+          _isLogin, context);
     }
   }
 
@@ -63,6 +53,7 @@ class _AuthFormState extends State<AuthForm> {
     return Center(
       child: Card(
         elevation: 5,
+        color: Colors.grey[300],
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         margin: EdgeInsets.all(20),
         child: SingleChildScrollView(
@@ -134,11 +125,23 @@ class _AuthFormState extends State<AuthForm> {
                     height: 10,
                   ),
                   if (!widget.isLoading) ...[
-                    RaisedButton(
-                      onPressed: () => _trySubmit(),
-                      child: Text(_isLogin ? "Log in " : "Sign Up!"),
+                    InkWell(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      onTap: () => _trySubmit(),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, right: 10, top: 5, bottom: 5),
+                        child: Text(
+                          _isLogin ? "Log In " : "Sign Up!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ),
                     FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
                         textColor: Theme.of(context).primaryColor,
                         onPressed: () {
                           setState(() {
