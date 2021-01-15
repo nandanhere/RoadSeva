@@ -3,7 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
+<<<<<<< HEAD
 	objectVersion = 51;
+=======
+	objectVersion = 50;
+>>>>>>> 3dfc1937f1ca653ff6f5644bb021eebbf737f0dd
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -377,13 +381,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = J342R59BVV;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = com.cantin.roadSeva;
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = com.canTin.roadSeva;
+>>>>>>> 3dfc1937f1ca653ff6f5644bb021eebbf737f0dd
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -505,13 +514,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = J342R59BVV;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = com.cantin.roadSeva;
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = com.canTin.roadSeva;
+>>>>>>> 3dfc1937f1ca653ff6f5644bb021eebbf737f0dd
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -527,13 +541,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = J342R59BVV;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+<<<<<<< HEAD
 				PRODUCT_BUNDLE_IDENTIFIER = com.cantin.roadSeva;
+=======
+				PRODUCT_BUNDLE_IDENTIFIER = com.canTin.roadSeva;
+>>>>>>> 3dfc1937f1ca653ff6f5644bb021eebbf737f0dd
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
