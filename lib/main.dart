@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:road_seva/screens/about.dart';
 import 'package:road_seva/screens/auth_screen.dart';
 import 'package:road_seva/screens/complaint_register.dart';
 import 'package:road_seva/screens/pothole_Details.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         },
       ),
       routes: {
+        AboutScreen.routeName: (ctx) => AboutScreen(),
         ComplaintRegisterScreen.routeName: (ctx) => ComplaintRegisterScreen(),
         PotholeDetails.routeName: (ctx) => PotholeDetails()
       },

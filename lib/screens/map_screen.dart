@@ -210,7 +210,8 @@ class _MapScreenState extends State<MapScreen> {
                                 'longitude': _pickedLocation.longitude,
                                 'upvoters': [id],
                                 'downvoters': [],
-                                "hasImage": hasImage
+                                "hasImage": hasImage,
+                                'timeStamp': Timestamp.now()
                               });
                             }
                             Navigator.of(context).pop();
