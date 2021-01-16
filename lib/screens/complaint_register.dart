@@ -43,45 +43,53 @@ class _ComplaintRegisterScreenState extends State<ComplaintRegisterScreen> {
       appBar: AppBar(
         title: Text("Register a complaint"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-              child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: MapScreen(
-                isSelecting: true,
-              ),
-              // Column(
-              //   children: [
-              //     SizedBox(
-              //       height: 10,
-              //     ),
-              //     ImageInput(
-              //       onImageSelect: _selectImage,
-              //     ),
-              //     SizedBox(
-              //       height: 10,
-              //     ),
-              //     LocationInput(
-              //       onSelectPlace: _selectPlace,
-              //     )
-              //   ],
-              // ),
-            ),
-          )),
-          RaisedButton.icon(
-            elevation: 0,
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            color: Theme.of(context).accentColor,
-            icon: Icon(Icons.add),
-            label: Text("Add Place!"),
-            onPressed: _savePlace,
-          )
-        ],
+      body: MapScreen(
+        latitude: 30.00,
+        longitude: 40.00,
+        isSelecting: true,
       ),
+      // Column(
+      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //   crossAxisAlignment: CrossAxisAlignment.stretch,
+      //   children: [
+      //     Expanded(
+      //         child: SingleChildScrollView(
+      //       child: Padding(
+      //         padding: const EdgeInsets.all(10.0),
+      //         child: MapScreen(
+      //           latitude: 30.00,
+      //           longitude: 40.00,
+      //           isSelecting: true,
+      //         ),
+      //         Column(
+      //           children: [
+      //             SizedBox(
+      //               height: 10,
+      //             ),
+      //             ImageInput(
+      //               onImageSelect: _selectImage,
+      //             ),
+      //             SizedBox(
+      //               height: 10,
+      //             ),
+      //             LocationInput(
+      //               onSelectPlace: _selectPlace,
+      //             )
+      //           ],
+      //         ),
+      // ),
+      // ),
+      // ),\
+      // RaisedButton.icon(
+      //   elevation: 0,
+      //   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      //   color: Theme.of(context).accentColor,
+      //   icon: Icon(Icons.add),
+      //   label: Text("Add Place!"),
+      //   onPressed: _savePlace,
+      // )
+      //   ],
+      // ),
     );
   }
 }

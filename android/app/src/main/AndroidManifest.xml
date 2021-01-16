@@ -3,6 +3,8 @@
    <application
         android:label="road_seva"
         android:icon="@mipmap/ic_launcher">
+         <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyAyBrrrsIrOP5z1tz1u1vLtan2l0b__uPI"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

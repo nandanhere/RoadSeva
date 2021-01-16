@@ -25,7 +25,7 @@ class LocationHelper {
 
   static String generateLocationPreviewImage(
       {double latitude, double longitude, double width, double height}) {
-    return 'https://osm-static-maps.herokuapp.com/?height=${height ~/ 4}&width=${(width / 1.3) ~/ 1}&center=$longitude,$latitude&zoom=18&markers=$longitude,$latitude,lightblue1';
+    return 'https://osm-static-maps.herokuapp.com/?height=${height ~/ 4}&width=${(width / 1.3) ~/ 1}&center=$longitude,$latitude&zoom=14&markers=$longitude,$latitude,lightblue1';
   }
 
   static Future<String> getPlaceAddress(double lat, double long) async {
