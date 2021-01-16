@@ -46,7 +46,10 @@ class _PotHolesNearMeState extends State<PotHolesNearMe> {
     @override
     Container potHoleList = Container(
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('potholes').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('potholes')
+            .orderBy('upvotes', descending: true)
+            .snapshots(),
         builder: (ctx, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -108,9 +111,13 @@ class _PotHolesNearMeState extends State<PotHolesNearMe> {
               ),
             ),
           ],
-          title: Text(
-            "Potholes Near Me",
-            style: TextStyle(color: Colors.black),
+          title: FittedBox(
+            child: Text(
+              isAdmin
+                  ? "Problems faced by citizens"
+                  : "Road Obstructions Near Me",
+              style: TextStyle(color: Colors.black),
+            ),
           ),
           backgroundColor: Color(0xfff0f0f0),
           shape: RoundedRectangleBorder(

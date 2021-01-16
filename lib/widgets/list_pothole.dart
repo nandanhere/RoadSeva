@@ -15,9 +15,6 @@ class ListPotHole extends StatefulWidget {
 }
 
 class _ListPotHoleState extends State<ListPotHole> {
-  bool voted = false;
-  bool isUpVoted, isDownVoted;
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -131,7 +128,16 @@ class _ListPotHoleState extends State<ListPotHole> {
                   Icons.message,
                   size: 18,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      duration: Duration(
+                        seconds: 10,
+                      ),
+                      content: Text("This Feature is in Development!"),
+                    ),
+                  );
+                },
               ),
             ),
           ),

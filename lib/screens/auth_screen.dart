@@ -83,6 +83,7 @@ class _AuthScreenState extends State<AuthScreen> {
           children: [
             Icon(Icons.location_on, color: Colors.red, size: 100),
             AuthForm(submitData: _submitAuthForm, isLoading: _isLoading),
+            Text("Made by ❤️ by Cantin squad")
           ],
         ),
       ),
