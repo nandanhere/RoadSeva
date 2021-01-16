@@ -22,6 +22,11 @@ RoadSeva uses Flutter to build its core Frontend and implements Firebase’s Clo
 
 The following project aims to soon become open source after shifting to a proper backend rather than firebase.
 
+## Note:
+- It is preferable to use an iOS device or simulator as much of our code was developed using it.
+- For dummy checks, use a simulator and enable custom location. Set the location as : latitude : 48.8584, longitude : 2.2945
+- We have also created a dummy account with username as "admin" and password as "password"
+
 ## Special Thanks To
 - Open Street Map
 - <div> App Logo made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
