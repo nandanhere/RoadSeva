@@ -1,15 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:road_seva/helpers/location_helper.dart';
+import 'package:location/location.dart';
 import 'package:road_seva/screens/complaint_register.dart';
 import 'package:road_seva/widgets/list_pothole.dart';
 
-class PotHolesNearMe extends StatelessWidget {
+class PotHolesNearMe extends StatefulWidget {
   const PotHolesNearMe({Key key}) : super(key: key);
 
   @override
+  _PotHolesNearMeState createState() => _PotHolesNearMeState();
+}
+
+class _PotHolesNearMeState extends State<PotHolesNearMe> {
+  LocationData myLocation;
+  void initState() {
+    getLoc();
+    super.initState();
+  }
+
+  Future<void> getLoc() async {
+    myLocation = await Location().getLocation();
+    print("Hello " +
+        myLocation.latitude.toString() +
+        myLocation.longitude.toString());
+  }
+
+  @override
   Widget build(BuildContext context) {
+    @override
     Container potHoleList = Container(
       child: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('potholes').snapshots(),
@@ -60,7 +78,8 @@ class PotHolesNearMe extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.dangerous),
         onPressed: () {
-          Navigator.of(context).pushNamed(ComplaintRegisterScreen.routeName);
+          Navigator.of(context).pushNamed(ComplaintRegisterScreen.routeName,
+              arguments: {"location": myLocation});
         },
       ),
     );
