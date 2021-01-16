@@ -18,13 +18,8 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final auth = FirebaseAuth.instance;
   var _isLoading = false;
-  void _submitAuthForm(
-    String email,
-    String password,
-    String userName,
-    bool isLogin,
-    BuildContext ctx,
-  ) async {
+  void _submitAuthForm(String email, String password, String userName,
+      bool isLogin, BuildContext ctx) async {
     print("Authentication");
 
 // authResult was named UserCredential
@@ -39,7 +34,6 @@ class _AuthScreenState extends State<AuthScreen> {
       } else {
         authResult = await auth.createUserWithEmailAndPassword(
             email: email, password: password);
-        // this code had .onComplete before. but in newer version of firebaseStorage it is no longer needed.
         FirebaseFirestore.instance
             .collection('users')
             .doc(authResult.user.uid)
@@ -53,7 +47,7 @@ class _AuthScreenState extends State<AuthScreen> {
       setState(() {
         _isLoading = false;
       });
-      var message = "Check ur credentials";
+      var message = "Check your credentials please";
       if (error.message != null) {
         message = error.message;
       }
@@ -72,44 +66,27 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
     return Scaffold(
         body: SingleChildScrollView(
-      child: Expanded(
-        child: Container(
-          height: 1000,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                Colors.white,
-                Theme.of(context).primaryColorLight,
-                Theme.of(context).primaryColorLight,
-                Theme.of(context).primaryColorLight,
-                Theme.of(context).primaryColor,
-                Theme.of(context).primaryColorDark
-              ])),
-          child: Stack(children: [
-            Column(
-              children: [
-                SizedBox(
-                  height: 50,
-                ),
-                Container(
-                  height: 250,
-                  child: Image.asset(
-                    "/Users/nandan/apps/udemy_teams_app/udemy_teams_app/assets/amalgam_logo.png",
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Text(
-                  "Amalgam",
-                  style: TextStyle(fontSize: 50),
-                ),
-                AuthForm(submitData: _submitAuthForm, isLoading: _isLoading),
-              ],
-            )
-          ]),
+      child: Container(
+        height: height,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+              Color(0xffdedede),
+              Color(0xffd0d0d0),
+              // Color(0xFF6B6B6B),
+              Color(0xFF646464)
+            ])),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.location_on, color: Colors.red, size: 100),
+            AuthForm(submitData: _submitAuthForm, isLoading: _isLoading),
+          ],
         ),
       ),
     ));

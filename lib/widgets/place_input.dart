@@ -22,15 +22,8 @@ class _LocationInputState extends State<LocationInput> {
   void _showPreview(double lat, double lng) async {
     final imageURL = LocationHelper.generateLocationPreviewImage(
         latitude: lat, longitude: lng);
-    final apikey = "AIzaSyAyBrrrsIrOP5z1tz1u1vLtan2l0b__uPI";
-    final url1 =
-        "https://roads.googleapis.com/v1/nearestRoads?points=$lat,$lng&key=$apikey";
-    final response = await http.get(url1);
-    final data = jsonDecode(response.body).toString();
-    print(data);
     setState(() {
       _previewImageUrl = imageURL;
-      print(_previewImageUrl);
     });
   }
 
@@ -52,11 +45,8 @@ class _LocationInputState extends State<LocationInput> {
       MaterialPageRoute(
         fullscreenDialog: true,
         builder: (context) => MapScreen(
-          initialLocation: PotHoleDetails(
-              latitude: locData.latitude,
-              longitude: locData.longitude,
-              address: "",
-              url: ""),
+          latitude: locData != null ? locData.latitude : 42.33,
+          longitude: locData != null ? locData.longitude : 100,
           isSelecting: true,
         ),
       ),
@@ -67,8 +57,7 @@ class _LocationInputState extends State<LocationInput> {
     }
     var h = LocationHelper();
 
-    print("hellooooo" + h.getD(selectedLocation, latl).toString());
-    _showPreview(selectedLocation.latitude, selectedLocation.longitude);
+    print(h.getD(selectedLocation, latl).toString());
 
     widget.onSelectPlace(selectedLocation.latitude, selectedLocation.longitude);
   }

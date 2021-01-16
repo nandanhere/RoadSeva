@@ -24,17 +24,23 @@ class LocationHelper {
   }
 
   static String generateLocationPreviewImage(
-      {double latitude, double longitude}) {
-    return "https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&key=$GOOGLE_API_KEY";
+      {double latitude, double longitude, double width, double height}) {
+    return 'https://osm-static-maps.herokuapp.com/?height=${height ~/ 4}&width=${(width / 1.3) ~/ 1}&center=$longitude,$latitude&zoom=18&markers=$longitude,$latitude,lightblue1';
   }
 
   static Future<String> getPlaceAddress(double lat, double long) async {
-    return "The address wil be here if api was paid for";
-    // final url =
-    //     "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&key=$GOOGLE_API_KEY";
-    // final response = await http.get(url);
-    // if (response == null) return "hell";
-    // print(response);
-    // return json.decode(response.body)['results'][0]['formatted_address'];
+    final url =
+        "https://forward-reverse-geocoding.p.rapidapi.com/v1/reverse?lat=$lat&lon=$long&format=json&accept-language=en&polygon_threshold=0.0";
+    final response = await http.get(url, headers: {
+      "x-rapidapi-key": "f46aab0a5emsh04a8f3b8c25f395p14f0c6jsnb9e9d0b9f965",
+      "x-rapidapi-host": "forward-reverse-geocoding.p.rapidapi.com"
+    });
+    if (response == null) {
+      return "The pothole is near (${lat.toStringAsPrecision(2)},${long.toStringAsPrecision(2)})";
+    }
+    final map = json.decode(response.body);
+
+    String road = map['address']['road'];
+    return road == null ? map['display_name'] : road;
   }
 }
