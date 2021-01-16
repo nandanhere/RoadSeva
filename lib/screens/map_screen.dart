@@ -23,6 +23,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return GoogleMap(
+      myLocationEnabled: true,
       initialCameraPosition: CameraPosition(
           zoom: 16, target: LatLng(widget.latitude, widget.longitude)),
       onTap: widget.isSelecting ? _selectLocation : null,
