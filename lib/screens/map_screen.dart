@@ -68,6 +68,14 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<Marker> marklist = widget.potholes.map((e) {
+      return Marker(
+        icon: BitmapDescriptor.defaultMarkerWithHue(200),
+        flat: true,
+        markerId: MarkerId(e['id']),
+        position: LatLng(e['latitude'], e['longitude']),
+      );
+    }).toList();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xfff0f0f0),
@@ -119,8 +127,9 @@ class _MapScreenState extends State<MapScreen> {
                 zoom: 18, target: LatLng(widget.latitude, widget.longitude)),
             onTap: widget.isSelecting ? _selectLocation : null,
             markers: (_pickedLocation == null && widget.isSelecting)
-                ? {}
+                ? {...marklist}
                 : {
+                    ...marklist,
                     Marker(
                       markerId: MarkerId("m1"),
                       position: _pickedLocation ??
