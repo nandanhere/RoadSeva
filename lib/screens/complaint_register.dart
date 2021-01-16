@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:road_seva/models/place.dart';
+import 'package:road_seva/screens/map_screen.dart';
 import 'package:road_seva/widgets/place_input.dart';
 
 import 'package:flutter/material.dart';
@@ -18,7 +19,6 @@ class ComplaintRegisterScreen extends StatefulWidget {
 }
 
 class _ComplaintRegisterScreenState extends State<ComplaintRegisterScreen> {
-  final _titleController = TextEditingController();
   File _pickedImage;
   PotHoleDetails _pickedLocation;
   void _selectImage(File pickedImage) {
@@ -26,7 +26,7 @@ class _ComplaintRegisterScreenState extends State<ComplaintRegisterScreen> {
   }
 
   void _savePlace() {
-    if (_titleController.text.isEmpty || _pickedImage == null) {
+    if (_pickedImage == null) {
       return;
     }
 
@@ -41,39 +41,35 @@ class _ComplaintRegisterScreenState extends State<ComplaintRegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add a New Place!"),
+        title: Text("Register a complaint"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text("User Inputs."),
           Expanded(
               child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _titleController,
-                    decoration: InputDecoration(
-                      labelText: "Title",
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ImageInput(
-                    onImageSelect: _selectImage,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  LocationInput(
-                    onSelectPlace: _selectPlace,
-                  )
-                ],
+              child: MapScreen(
+                isSelecting: true,
               ),
+              // Column(
+              //   children: [
+              //     SizedBox(
+              //       height: 10,
+              //     ),
+              //     ImageInput(
+              //       onImageSelect: _selectImage,
+              //     ),
+              //     SizedBox(
+              //       height: 10,
+              //     ),
+              //     LocationInput(
+              //       onSelectPlace: _selectPlace,
+              //     )
+              //   ],
+              // ),
             ),
           )),
           RaisedButton.icon(
