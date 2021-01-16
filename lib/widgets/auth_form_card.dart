@@ -21,7 +21,6 @@ class _AuthFormState extends State<AuthForm> {
 
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
-    print("trying" + isValid.toString());
 
     if ((isValid && !_isLogin) || (_isLogin && isValid)) {
       FocusScope.of(context).unfocus();

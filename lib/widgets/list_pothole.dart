@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:road_seva/helpers/location_helper.dart';
+import 'package:road_seva/screens/pothole_Details.dart';
 
 class ListPotHole extends StatefulWidget {
   final QueryDocumentSnapshot documentSnapshot;
@@ -102,28 +103,39 @@ class _ListPotHoleState extends State<ListPotHole> {
           ),
           Align(
             alignment: Alignment.bottomRight,
-            child: Container(
-              height: (height ~/ 4).toDouble(),
-              width: ((width / 1.3) ~/ 1).toDouble(),
-              margin: EdgeInsets.only(bottom: 10, right: 10),
-              decoration: BoxDecoration(
-                // color: Colors.pink,
-                image: DecorationImage(
-                  image: NetworkImage(
-                    LocationHelper.generateLocationPreviewImage(
-                        height: height,
-                        width: width,
-                        latitude: lat,
-                        longitude: long),
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  PotholeDetails.routeName,
+                  arguments: {
+                    'document': widget.documentSnapshot,
+                    'title': widget.documentSnapshot['address'],
+                  },
+                );
+              },
+              child: Container(
+                height: (height ~/ 4).toDouble(),
+                width: ((width / 1.3) ~/ 1).toDouble(),
+                margin: EdgeInsets.only(bottom: 10, right: 10),
+                decoration: BoxDecoration(
+                  // color: Colors.pink,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      LocationHelper.generateLocationPreviewImage(
+                          height: height,
+                          width: width,
+                          latitude: lat,
+                          longitude: long),
+                    ),
+                    fit: BoxFit.fill,
                   ),
-                  fit: BoxFit.fill,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
                 ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                ),
+                child: Icon(Icons.location_on, color: Colors.red, size: 25),
+                alignment: Alignment.center,
               ),
-              child: Icon(Icons.location_on, color: Colors.red, size: 25),
-              alignment: Alignment.center,
             ),
           )
         ],
