@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -100,6 +101,7 @@ class _MapScreenState extends State<MapScreen> {
                       ? null
                       : () {
                           var truth = false;
+                          var id = FirebaseAuth.instance.currentUser.uid;
                           String saveid;
                           int upvotes;
                           if (widget.potholes != null)
@@ -137,7 +139,7 @@ class _MapScreenState extends State<MapScreen> {
                               'downvotes': 0,
                               'latitude': _pickedLocation.latitude,
                               'longitude': _pickedLocation.longitude,
-                              'upvoters': [],
+                              'upvoters': [id],
                               'downvoters': []
                             });
                           }
