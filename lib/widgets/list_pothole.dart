@@ -45,7 +45,7 @@ class _ListPotHoleState extends State<ListPotHole> {
             child: Padding(
               padding: const EdgeInsets.only(left: 10.0, top: 10),
               child: Text(
-                widget.documentSnapshot["address"],
+                widget.documentSnapshot["address"].toString(),
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),

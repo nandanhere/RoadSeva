@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:road_seva/helpers/location_helper.dart';
 
 class MapScreen extends StatefulWidget {
   final double latitude, longitude;
@@ -16,21 +16,41 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng _pickedLocation;
-  String address;
-  void _selectLocation(LatLng position) async {
+  void _selectLocation(LatLng position) {
     setState(() {
       _pickedLocation = position;
     });
-    address = await LocationHelper.getPlaceAddress(
-        position.latitude, position.longitude);
-    print(address);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Register a complaint"),
+        backgroundColor: Color(0xfff0f0f0),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        )),
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
+          "Register a complaint",
+          style: TextStyle(color: Colors.black),
+        ),
+        actions: [
+          IconButton(
+              padding: EdgeInsets.only(right: 10),
+              tooltip: "Open Camera",
+              alignment: Alignment.center,
+              icon: Icon(
+                Icons.camera,
+                size: 28,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                print("Hello World");
+              }),
+        ],
       ),
       body: Stack(
         children: [
@@ -55,21 +75,18 @@ class _MapScreenState extends State<MapScreen> {
           ),
           Container(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.network(""),
-                IconButton(icon: Icon(Icons.camera), onPressed: () {}),
-                FlatButton(
-                    onPressed: () {
-                      FirebaseFirestore.instance.collection('potholes').add({
-                        'isFixed': false,
-                        'upvotes': 0,
-                        'address': address,
-                        'downvotes': 0,
-                        'latitude': _pickedLocation.latitude,
-                        'longitude': _pickedLocation.longitude
-                      });
-                    },
-                    child: Text("Report complaint")),
+                RaisedButton(
+                    color: Colors.red[300],
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    child: Text(
+                      "Report Complaint",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
               ],
             ),
           ),
