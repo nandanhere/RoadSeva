@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:location/location.dart';
 import 'package:road_seva/models/place.dart';
 import 'package:road_seva/screens/map_screen.dart';
@@ -8,86 +9,20 @@ import 'package:road_seva/widgets/image_input.dart';
 
 import '../models/place.dart';
 
-class ComplaintRegisterScreen extends StatefulWidget {
-  static const String routeName = "/complaint-screen";
-
-  ComplaintRegisterScreen({Key key}) : super(key: key);
-
-  @override
-  _ComplaintRegisterScreenState createState() =>
-      _ComplaintRegisterScreenState();
-}
-
-class _ComplaintRegisterScreenState extends State<ComplaintRegisterScreen> {
-  File _pickedImage;
-  PotHoleDetails _pickedLocation;
-
-  void _selectImage(File pickedImage) {
-    _pickedImage = pickedImage;
-  }
-
-  void _savePlace() {
-    if (_pickedImage == null) {
-      return;
-    }
-
-    Navigator.of(context).pop();
-  }
-
-  void _selectPlace(double lat, double long) {
-    _pickedLocation = PotHoleDetails(latitude: lat, longitude: long);
-  }
+class ComplaintRegisterScreen extends StatelessWidget {
+  static const routeName = "/complaint_register";
+  final List<DocumentSnapshot> potholes;
+  const ComplaintRegisterScreen({Key key, this.potholes}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final Map<String, LocationData> args =
         ModalRoute.of(context).settings.arguments;
     return MapScreen(
+      potholes: potholes,
       latitude: args['location'].latitude,
       longitude: args['location'].longitude,
       isSelecting: true,
     );
-    // Column(
-    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //   crossAxisAlignment: CrossAxisAlignment.stretch,
-    //   children: [
-    //     Expanded(
-    //         child: SingleChildScrollView(
-    //       child: Padding(
-    //         padding: const EdgeInsets.all(10.0),
-    //         child: MapScreen(
-    //           latitude: 30.00,
-    //           longitude: 40.00,
-    //           isSelecting: true,
-    //         ),
-    //         Column(
-    //           children: [
-    //             SizedBox(
-    //               height: 10,
-    //             ),
-    //             ImageInput(
-    //               onImageSelect: _selectImage,
-    //             ),
-    //             SizedBox(
-    //               height: 10,
-    //             ),
-    //             LocationInput(
-    //               onSelectPlace: _selectPlace,
-    //             )
-    //           ],
-    //         ),
-    // ),
-    // ),
-    // ),\
-    // RaisedButton.icon(
-    //   elevation: 0,
-    //   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    //   color: Theme.of(context).accentColor,
-    //   icon: Icon(Icons.add),
-    //   label: Text("Add Place!"),
-    //   onPressed: _savePlace,
-    // )
-    //   ],
-    // ),
   }
 }

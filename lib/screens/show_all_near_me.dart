@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:road_seva/helpers/location_helper.dart';
 import 'package:road_seva/screens/complaint_register.dart';
 import 'package:road_seva/widgets/list_pothole.dart';
 
@@ -20,13 +22,18 @@ class _PotHolesNearMeState extends State<PotHolesNearMe> {
 
   Future<void> getLoc() async {
     myLocation = await Location().getLocation();
-    print("Hello " +
-        myLocation.latitude.toString() +
-        myLocation.longitude.toString());
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    LocationHelper lh = new LocationHelper();
+    List<DocumentSnapshot> potholes = new List<DocumentSnapshot>();
+
+    if (myLocation == null)
+      return Center(
+        child: CircularProgressIndicator(),
+      );
     @override
     Container potHoleList = Container(
       child: StreamBuilder(
@@ -37,19 +44,24 @@ class _PotHolesNearMeState extends State<PotHolesNearMe> {
               child: CircularProgressIndicator(),
             );
           }
-          print(snapshot);
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.none) {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
           final potholeDoc = snapshot.data.documents;
           return ListView.builder(
-              reverse: true,
               shrinkWrap: true,
               itemCount: potholeDoc.length,
               itemBuilder: (ctx, index) {
                 QueryDocumentSnapshot potholeData = potholeDoc[index];
+                LatLng p1 =
+                    LatLng(potholeData['latitude'], potholeData['longitude']);
+                LatLng p2 = LatLng(myLocation.latitude, myLocation.longitude);
+                if (lh.getD(p1, p2) > 30)
+                  return Container();
+                else
+                  potholes.add(potholeData);
                 return Container(
                   margin: index == potholeDoc.length - 1
                       ? EdgeInsets.only(top: 20)

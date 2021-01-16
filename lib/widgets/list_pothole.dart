@@ -45,7 +45,7 @@ class _ListPotHoleState extends State<ListPotHole> {
             child: Padding(
               padding: const EdgeInsets.only(left: 10.0, top: 10),
               child: Text(
-                widget.documentSnapshot["address"],
+                widget.documentSnapshot["address"].toString(),
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
@@ -53,23 +53,36 @@ class _ListPotHoleState extends State<ListPotHole> {
           ),
           Align(
             alignment: Alignment.centerLeft,
-            child: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
                   icon: Icon(
                     Icons.arrow_upward,
-                    size: 14,
+                    color: Colors.black,
+                    size: 20,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    DocumentReference dr = widget.documentSnapshot.reference;
+                    dr.update({"upvotes": FieldValue.increment(1)});
+                  },
                 ),
-                Text("0"),
+                Text(
+                  (widget.documentSnapshot["upvotes"] -
+                          widget.documentSnapshot["downvotes"])
+                      .toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
                 IconButton(
                   icon: Icon(
                     Icons.arrow_downward,
-                    size: 14,
+                    color: Colors.black,
+                    size: 20,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    DocumentReference dr = widget.documentSnapshot.reference;
+                    dr.update({"downvotes": FieldValue.increment(1)});
+                  },
                 ),
               ],
             ),
