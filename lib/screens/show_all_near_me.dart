@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:road_seva/helpers/location_helper.dart';
+import 'package:road_seva/screens/complaint_register.dart';
 import 'package:road_seva/widgets/list_pothole.dart';
 
 class PotHolesNearMe extends StatelessWidget {
@@ -55,6 +57,12 @@ class PotHolesNearMe extends StatelessWidget {
                 bottomRight: Radius.circular(20))),
       ),
       body: potHoleList,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.dangerous),
+        onPressed: () {
+          Navigator.of(context).pushNamed(ComplaintRegisterScreen.routeName);
+        },
+      ),
     );
   }
 }

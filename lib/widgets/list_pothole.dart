@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:road_seva/helpers/location_helper.dart';
@@ -15,8 +13,8 @@ class ListPotHole extends StatefulWidget {
 class _ListPotHoleState extends State<ListPotHole> {
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     double lat = widget.documentSnapshot["latitude"],
         long = widget.documentSnapshot["longitude"];
     if (lat == null || long == null) {
@@ -96,12 +94,23 @@ class _ListPotHoleState extends State<ListPotHole> {
               width: ((width / 1.3) ~/ 1).toDouble(),
               margin: EdgeInsets.only(bottom: 10, right: 10),
               decoration: BoxDecoration(
-                  // color: Colors.pink,
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          'http://osm-static-maps.herokuapp.com/?height=${height ~/ 4}&width=${(width / 1.3) ~/ 1}&center=$long,$lat&zoom=12'),
-                      fit: BoxFit.fill),
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
+                // color: Colors.pink,
+                image: DecorationImage(
+                  image: NetworkImage(
+                    LocationHelper.generateLocationPreviewImage(
+                        height: height,
+                        width: width,
+                        latitude: lat,
+                        longitude: long),
+                  ),
+                  fit: BoxFit.fill,
+                ),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+              ),
+              child: Icon(Icons.location_on, color: Colors.red, size: 25),
+              alignment: Alignment.center,
             ),
           )
         ],
