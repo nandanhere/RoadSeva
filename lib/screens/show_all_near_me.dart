@@ -60,8 +60,10 @@ class _PotHolesNearMeState extends State<PotHolesNearMe> {
                 LatLng p2 = LatLng(myLocation.latitude, myLocation.longitude);
                 if (lh.getD(p1, p2) > 30)
                   return Container();
-                else
+                else {
+                  print("Added");
                   potholes.add(potholeData);
+                }
                 return Container(
                   margin: index == potholeDoc.length - 1
                       ? EdgeInsets.only(top: 20)
@@ -91,7 +93,7 @@ class _PotHolesNearMeState extends State<PotHolesNearMe> {
         child: Icon(Icons.dangerous),
         onPressed: () {
           Navigator.of(context).pushNamed(ComplaintRegisterScreen.routeName,
-              arguments: {"location": myLocation});
+              arguments: {"location": myLocation, "potholes": potholes});
         },
       ),
     );

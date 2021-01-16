@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -66,9 +67,7 @@ class _MapScreenState extends State<MapScreen> {
                 size: 28,
                 color: Colors.black,
               ),
-              onPressed: () {
-                print("Hello World");
-              }),
+              onPressed: () {}),
         ],
       ),
       body: Stack(
@@ -101,17 +100,50 @@ class _MapScreenState extends State<MapScreen> {
                   onPressed: !_isEnabled
                       ? null
                       : () {
-                          FirebaseFirestore.instance
-                              .collection('potholes')
-                              .doc(address)
-                              .set({
-                            'isFixed': false,
-                            'upvotes': 0,
-                            'address': address,
-                            'downvotes': 0,
-                            'latitude': _pickedLocation.latitude,
-                            'longitude': _pickedLocation.longitude
-                          });
+                          var truth = false;
+                          var id = FirebaseAuth.instance.currentUser.uid;
+                          String saveid;
+                          int upvotes;
+                          if (widget.potholes != null)
+                            for (DocumentSnapshot element in widget.potholes) {
+                              if (element['address'] == address) {
+                                truth = true;
+                                saveid = element['id'];
+                                upvotes = element['upvotes'];
+                                break;
+                              }
+                            }
+                          if (truth) {
+                            FirebaseFirestore.instance
+                                .collection('potholes')
+                                .doc(saveid)
+                                .update({'upvotes': upvotes + 1});
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                duration: Duration(
+                                  seconds: 10,
+                                ),
+                                content: Text(
+                                    "We have recieved multiple complaints about this road, and we are working on it!"),
+                              ),
+                            );
+                          } else {
+                            var doc = FirebaseFirestore.instance
+                                .collection('potholes')
+                                .doc();
+                            doc.set({
+                              'id': doc.id,
+                              'isFixed': false,
+                              'upvotes': 1,
+                              'address': address,
+                              'downvotes': 0,
+                              'latitude': _pickedLocation.latitude,
+                              'longitude': _pickedLocation.longitude,
+                              'upvoters': [id],
+                              'downvoters': []
+                            });
+                          }
+                          Navigator.of(context).pop();
                         },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20))),

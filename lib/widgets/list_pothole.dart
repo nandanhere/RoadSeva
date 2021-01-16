@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:road_seva/helpers/location_helper.dart';
+import 'package:road_seva/screens/pothole_Details.dart';
 
 class ListPotHole extends StatefulWidget {
   final QueryDocumentSnapshot documentSnapshot;
@@ -11,6 +13,9 @@ class ListPotHole extends StatefulWidget {
 }
 
 class _ListPotHoleState extends State<ListPotHole> {
+  bool voted = false;
+  bool isUpVoted, isDownVoted;
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -63,8 +68,22 @@ class _ListPotHoleState extends State<ListPotHole> {
                     size: 20,
                   ),
                   onPressed: () {
+                    var id = FirebaseAuth.instance.currentUser.uid;
                     DocumentReference dr = widget.documentSnapshot.reference;
+                    var arr1 = List.from(widget.documentSnapshot["downvoters"]);
+                    var arr2 = List.from(widget.documentSnapshot["upvoters"]);
+                    if (arr2.contains(id)) {
+                      return;
+                    }
+                    if (arr1.contains(id)) {
+                      dr.update({
+                        "downvoters": FieldValue.arrayRemove([id])
+                      });
+                    }
                     dr.update({"upvotes": FieldValue.increment(1)});
+                    dr.update({
+                      "upvoters": FieldValue.arrayUnion([id])
+                    });
                   },
                 ),
                 Text(
@@ -80,8 +99,22 @@ class _ListPotHoleState extends State<ListPotHole> {
                     size: 20,
                   ),
                   onPressed: () {
+                    var id = FirebaseAuth.instance.currentUser.uid;
                     DocumentReference dr = widget.documentSnapshot.reference;
+                    var arr1 = List.from(widget.documentSnapshot["downvoters"]);
+                    var arr2 = List.from(widget.documentSnapshot["upvoters"]);
+                    if (arr1.contains(id)) {
+                      return;
+                    }
+                    if (arr2.contains(id)) {
+                      dr.update({
+                        "upvoters": FieldValue.arrayRemove([id])
+                      });
+                    }
                     dr.update({"downvotes": FieldValue.increment(1)});
+                    dr.update({
+                      "downvoters": FieldValue.arrayUnion([id])
+                    });
                   },
                 ),
               ],
@@ -102,28 +135,39 @@ class _ListPotHoleState extends State<ListPotHole> {
           ),
           Align(
             alignment: Alignment.bottomRight,
-            child: Container(
-              height: (height ~/ 4).toDouble(),
-              width: ((width / 1.3) ~/ 1).toDouble(),
-              margin: EdgeInsets.only(bottom: 10, right: 10),
-              decoration: BoxDecoration(
-                // color: Colors.pink,
-                image: DecorationImage(
-                  image: NetworkImage(
-                    LocationHelper.generateLocationPreviewImage(
-                        height: height,
-                        width: width,
-                        latitude: lat,
-                        longitude: long),
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  PotholeDetails.routeName,
+                  arguments: {
+                    'document': widget.documentSnapshot,
+                    'title': widget.documentSnapshot['address'],
+                  },
+                );
+              },
+              child: Container(
+                height: (height ~/ 4).toDouble(),
+                width: ((width / 1.3) ~/ 1).toDouble(),
+                margin: EdgeInsets.only(bottom: 10, right: 10),
+                decoration: BoxDecoration(
+                  // color: Colors.pink,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      LocationHelper.generateLocationPreviewImage(
+                          height: height,
+                          width: width,
+                          latitude: lat,
+                          longitude: long),
+                    ),
+                    fit: BoxFit.fill,
                   ),
-                  fit: BoxFit.fill,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
                 ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                ),
+                child: Icon(Icons.location_on, color: Colors.red, size: 25),
+                alignment: Alignment.center,
               ),
-              child: Icon(Icons.location_on, color: Colors.red, size: 25),
-              alignment: Alignment.center,
             ),
           )
         ],
