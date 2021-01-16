@@ -2,6 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow access to location</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Allow access to location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow access to location</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Allow access to location</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Grant access to library</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Grant access to camera</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
