@@ -20,8 +20,6 @@ class _AuthScreenState extends State<AuthScreen> {
   var _isLoading = false;
   void _submitAuthForm(String email, String password, String userName,
       bool isLogin, BuildContext ctx) async {
-    print("Authentication");
-
 // authResult was named UserCredential
     UserCredential authResult;
     try {
