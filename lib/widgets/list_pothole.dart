@@ -53,23 +53,36 @@ class _ListPotHoleState extends State<ListPotHole> {
           ),
           Align(
             alignment: Alignment.centerLeft,
-            child: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
                   icon: Icon(
                     Icons.arrow_upward,
-                    size: 14,
+                    color: Colors.black,
+                    size: 20,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    DocumentReference dr = widget.documentSnapshot.reference;
+                    dr.update({"upvotes": FieldValue.increment(1)});
+                  },
                 ),
-                Text("0"),
+                Text(
+                  (widget.documentSnapshot["upvotes"] -
+                          widget.documentSnapshot["downvotes"])
+                      .toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
                 IconButton(
                   icon: Icon(
                     Icons.arrow_downward,
-                    size: 14,
+                    color: Colors.black,
+                    size: 20,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    DocumentReference dr = widget.documentSnapshot.reference;
+                    dr.update({"downvotes": FieldValue.increment(1)});
+                  },
                 ),
               ],
             ),
