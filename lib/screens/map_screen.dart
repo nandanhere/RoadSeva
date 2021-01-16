@@ -110,7 +110,9 @@ class _MapScreenState extends State<MapScreen> {
                             'address': address,
                             'downvotes': 0,
                             'latitude': _pickedLocation.latitude,
-                            'longitude': _pickedLocation.longitude
+                            'longitude': _pickedLocation.longitude,
+                            'upvoters': [],
+                            'downvoters': []
                           });
                         },
                   shape: RoundedRectangleBorder(
