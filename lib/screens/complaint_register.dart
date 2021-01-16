@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:location/location.dart';
 import 'package:road_seva/models/place.dart';
 import 'package:road_seva/screens/map_screen.dart';
 
@@ -39,11 +40,11 @@ class _ComplaintRegisterScreenState extends State<ComplaintRegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context).settings.arguments;
-    print(args);
+    final Map<String, LocationData> args =
+        ModalRoute.of(context).settings.arguments;
     return MapScreen(
-      latitude: 30.00,
-      longitude: 40.00,
+      latitude: args['location'].latitude,
+      longitude: args['location'].longitude,
       isSelecting: true,
     );
     // Column(

@@ -13,9 +13,6 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  LocationData locData;
-  LatLng d = LatLng(0, 0);
-
   LatLng _pickedLocation;
   void _selectLocation(LatLng position) {
     setState(() {
@@ -41,9 +38,13 @@ class _MapScreenState extends State<MapScreen> {
                 ? {}
                 : {
                     Marker(
-                        markerId: MarkerId("m1"),
-                        position: _pickedLocation ??
-                            LatLng(widget.latitude, widget.longitude)),
+                      markerId: MarkerId("m1"),
+                      position: _pickedLocation ??
+                          LatLng(
+                            widget.latitude == null ? 0 : widget.latitude,
+                            widget.longitude == null ? 0 : widget.longitude,
+                          ),
+                    ),
                   },
           ),
           Container(

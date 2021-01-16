@@ -79,7 +79,7 @@ class _PotHolesNearMeState extends State<PotHolesNearMe> {
         child: Icon(Icons.dangerous),
         onPressed: () {
           Navigator.of(context).pushNamed(ComplaintRegisterScreen.routeName,
-              arguments: LocationData);
+              arguments: {"location": myLocation});
         },
       ),
     );
