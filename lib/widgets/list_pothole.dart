@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:road_seva/helpers/location_helper.dart';
 import 'package:road_seva/screens/pothole_Details.dart';
@@ -64,8 +65,22 @@ class _ListPotHoleState extends State<ListPotHole> {
                     size: 20,
                   ),
                   onPressed: () {
+                    var id = FirebaseAuth.instance.currentUser.uid;
                     DocumentReference dr = widget.documentSnapshot.reference;
+                    var arr1 = List.from(widget.documentSnapshot["downvoters"]);
+                    var arr2 = List.from(widget.documentSnapshot["upvoters"]);
+                    if (arr2.contains(id)) {
+                      return;
+                    }
+                    if (arr1.contains(id)) {
+                      dr.update({
+                        "downvoters": FieldValue.arrayRemove([id])
+                      });
+                    }
                     dr.update({"upvotes": FieldValue.increment(1)});
+                    dr.update({
+                      "upvoters": FieldValue.arrayUnion([id])
+                    });
                   },
                 ),
                 Text(
@@ -81,8 +96,22 @@ class _ListPotHoleState extends State<ListPotHole> {
                     size: 20,
                   ),
                   onPressed: () {
+                    var id = FirebaseAuth.instance.currentUser.uid;
                     DocumentReference dr = widget.documentSnapshot.reference;
+                    var arr1 = List.from(widget.documentSnapshot["downvoters"]);
+                    var arr2 = List.from(widget.documentSnapshot["upvoters"]);
+                    if (arr1.contains(id)) {
+                      return;
+                    }
+                    if (arr2.contains(id)) {
+                      dr.update({
+                        "upvoters": FieldValue.arrayRemove([id])
+                      });
+                    }
                     dr.update({"downvotes": FieldValue.increment(1)});
+                    dr.update({
+                      "downvoters": FieldValue.arrayUnion([id])
+                    });
                   },
                 ),
               ],
