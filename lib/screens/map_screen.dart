@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:road_seva/helpers/location_helper.dart';
 
 class MapScreen extends StatefulWidget {
   final double latitude, longitude;
@@ -14,10 +16,14 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng _pickedLocation;
-  void _selectLocation(LatLng position) {
+  String address;
+  void _selectLocation(LatLng position) async {
     setState(() {
       _pickedLocation = position;
     });
+    address = await LocationHelper.getPlaceAddress(
+        position.latitude, position.longitude);
+    print(address);
   }
 
   @override
@@ -52,7 +58,18 @@ class _MapScreenState extends State<MapScreen> {
               children: [
                 Image.network(""),
                 IconButton(icon: Icon(Icons.camera), onPressed: () {}),
-                FlatButton(onPressed: () {}, child: Text("Report complaint")),
+                FlatButton(
+                    onPressed: () {
+                      FirebaseFirestore.instance.collection('potholes').add({
+                        'isFixed': false,
+                        'upvotes': 0,
+                        'address': address,
+                        'downvotes': 0,
+                        'latitude': _pickedLocation.latitude,
+                        'longitude': _pickedLocation.longitude
+                      });
+                    },
+                    child: Text("Report complaint")),
               ],
             ),
           ),

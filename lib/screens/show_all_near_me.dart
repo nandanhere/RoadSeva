@@ -20,9 +20,6 @@ class _PotHolesNearMeState extends State<PotHolesNearMe> {
 
   Future<void> getLoc() async {
     myLocation = await Location().getLocation();
-    print("Hello " +
-        myLocation.latitude.toString() +
-        myLocation.longitude.toString());
   }
 
   @override
@@ -37,15 +34,13 @@ class _PotHolesNearMeState extends State<PotHolesNearMe> {
               child: CircularProgressIndicator(),
             );
           }
-          print(snapshot);
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.none) {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
           final potholeDoc = snapshot.data.documents;
           return ListView.builder(
-              reverse: true,
               shrinkWrap: true,
               itemCount: potholeDoc.length,
               itemBuilder: (ctx, index) {

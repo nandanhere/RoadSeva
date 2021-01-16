@@ -30,7 +30,6 @@ class _ComplaintRegisterScreenState extends State<ComplaintRegisterScreen> {
     if (_pickedImage == null) {
       return;
     }
-
     Navigator.of(context).pop();
   }
 
