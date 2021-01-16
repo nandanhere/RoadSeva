@@ -3,10 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:road_seva/helpers/location_helper.dart';
 import 'package:road_seva/screens/pothole_Details.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ListPotHole extends StatefulWidget {
+  final bool isAdmin;
   final QueryDocumentSnapshot documentSnapshot;
-  ListPotHole({Key key, this.documentSnapshot}) : super(key: key);
+  ListPotHole({Key key, this.documentSnapshot, this.isAdmin}) : super(key: key);
 
   @override
   _ListPotHoleState createState() => _ListPotHoleState();
@@ -139,6 +141,7 @@ class _ListPotHoleState extends State<ListPotHole> {
                   arguments: {
                     'document': widget.documentSnapshot,
                     'title': widget.documentSnapshot['address'],
+                    'isAdmin': widget.isAdmin,
                   },
                 );
               },
@@ -149,15 +152,13 @@ class _ListPotHoleState extends State<ListPotHole> {
                 decoration: BoxDecoration(
                   // color: Colors.pink,
                   image: DecorationImage(
-                    image: NetworkImage(
-                      LocationHelper.generateLocationPreviewImage(
-                          height: height,
-                          width: width,
-                          latitude: lat,
-                          longitude: long),
-                    ),
-                    fit: BoxFit.fill,
-                  ),
+                      image: CachedNetworkImageProvider(
+                    LocationHelper.generateLocationPreviewImage(
+                        height: height,
+                        width: width,
+                        latitude: lat,
+                        longitude: long),
+                  )),
                   borderRadius: BorderRadius.all(
                     Radius.circular(20),
                   ),
