@@ -28,6 +28,11 @@ class LocationHelper {
     return 'https://osm-static-maps.herokuapp.com/?height=${height ~/ 4}&width=${(width / 1.3) ~/ 1}&center=$longitude,$latitude&zoom=18&markers=$longitude,$latitude,lightblue1';
   }
 
+  static String generateLocationMapImage(
+      {double latitude, double longitude, double width, double height}) {
+    return 'https://osm-static-maps.herokuapp.com/?height=${height}&width=${(width) ~/ 1}&center=$longitude,$latitude&zoom=18&markers=$longitude,$latitude,lightblue1';
+  }
+
   static Future<String> getPlaceAddress(double lat, double long) async {
     final url =
         "https://forward-reverse-geocoding.p.rapidapi.com/v1/reverse?lat=$lat&lon=$long&format=json&accept-language=en&polygon_threshold=0.0";

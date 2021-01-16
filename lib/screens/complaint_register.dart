@@ -11,15 +11,16 @@ import '../models/place.dart';
 
 class ComplaintRegisterScreen extends StatelessWidget {
   static const routeName = "/complaint_register";
-  final List<DocumentSnapshot> potholes;
-  const ComplaintRegisterScreen({Key key, this.potholes}) : super(key: key);
+  const ComplaintRegisterScreen({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, LocationData> args =
-        ModalRoute.of(context).settings.arguments;
+    final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+
     return MapScreen(
-      potholes: potholes,
+      potholes: args['potholes'],
       latitude: args['location'].latitude,
       longitude: args['location'].longitude,
       isSelecting: true,

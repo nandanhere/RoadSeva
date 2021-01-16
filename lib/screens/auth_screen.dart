@@ -38,7 +38,8 @@ class _AuthScreenState extends State<AuthScreen> {
             .set({
           'userName': userName,
           'email': email,
-          'userId': authResult.user.uid
+          'userId': authResult.user.uid,
+          'admin': false
         });
       }
     } on PlatformException catch (error) {
