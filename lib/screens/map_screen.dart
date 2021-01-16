@@ -1,14 +1,16 @@
-import 'dart:ui';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:road_seva/helpers/location_helper.dart';
 
 class MapScreen extends StatefulWidget {
+  final List<DocumentSnapshot> potholes;
+
   final double latitude, longitude;
   final bool isSelecting;
 
-  MapScreen({this.isSelecting, this.latitude, this.longitude});
+  MapScreen({this.isSelecting, this.latitude, this.longitude, this.potholes});
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -16,10 +18,24 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   LatLng _pickedLocation;
-  void _selectLocation(LatLng position) {
+  String address;
+  bool _isEnabled = false;
+  void _selectLocation(LatLng position) async {
     setState(() {
       _pickedLocation = position;
+      _isEnabled = false;
+      address = null;
     });
+    try {
+      address = await LocationHelper.getPlaceAddress(
+          position.latitude, position.longitude);
+    } finally {
+      if (address != null) {
+        setState(() {
+          _isEnabled = true;
+        });
+      }
+    }
   }
 
   @override
@@ -28,10 +44,11 @@ class _MapScreenState extends State<MapScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xfff0f0f0),
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
-        )),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+        ),
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
           "Register a complaint",
@@ -58,7 +75,7 @@ class _MapScreenState extends State<MapScreen> {
             myLocationButtonEnabled: true,
             myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
-                zoom: 16, target: LatLng(widget.latitude, widget.longitude)),
+                zoom: 18, target: LatLng(widget.latitude, widget.longitude)),
             onTap: widget.isSelecting ? _selectLocation : null,
             markers: (_pickedLocation == null && widget.isSelecting)
                 ? {}
@@ -74,22 +91,35 @@ class _MapScreenState extends State<MapScreen> {
                   },
           ),
           Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RaisedButton(
-                    color: Colors.red[300],
-                    onPressed: () {},
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Text(
-                      "Report Complaint",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-              ],
-            ),
-          ),
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RaisedButton(
+                  color: Colors.red[300],
+                  onPressed: !_isEnabled
+                      ? null
+                      : () {
+                          FirebaseFirestore.instance
+                              .collection('potholes')
+                              .doc(address)
+                              .set({
+                            'isFixed': false,
+                            'upvotes': 0,
+                            'address': address,
+                            'downvotes': 0,
+                            'latitude': _pickedLocation.latitude,
+                            'longitude': _pickedLocation.longitude
+                          });
+                        },
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: Text(
+                    "Report Complaint",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
+            ],
+          )),
         ],
       ),
     );
