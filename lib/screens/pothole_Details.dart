@@ -13,14 +13,14 @@ class PotholeDetails extends StatelessWidget {
   Future<String> getUrl(DocumentSnapshot snap) async {
     String id = snap['id'];
     final reference =
-        FirebaseStorage.instance.ref().child('potholes').child('$id.jpg');
+        FirebaseStorage.instance.ref().child('potholes').child('$id.png');
     final s = await reference.getDownloadURL();
     return s;
   }
 
   void _launchURL(int n) async {
     final url = n == 0
-        ? "tel:+1 555 010 999"
+        ? "tel:1234567"
         : "https://www.google.com/search?q=Constructors+near+me";
     if (await canLaunch(url)) {
       await launch(url);
@@ -55,7 +55,18 @@ class PotholeDetails extends StatelessWidget {
           ),
         ]),
         appBar: AppBar(
-          title: Text(args['title']),
+          iconTheme: IconThemeData(
+            color: Colors.black, //change your color here
+          ),
+          title: Text(
+            args['title'],
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Color(0xfff0f0f0),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  bottomRight: Radius.circular(20))),
           actions: isAdmin
               ? [
                   IconButton(
@@ -70,7 +81,9 @@ class PotholeDetails extends StatelessWidget {
                 ]
               : [],
         ),
-        body: SingleChildScrollView(
+        body: Container(
+          height: size.height * 5 / 6,
+          width: size.width,
           child: Stack(
             children: [
               CachedNetworkImage(
@@ -83,6 +96,9 @@ class PotholeDetails extends StatelessWidget {
                   return CircularProgressIndicator();
                 },
               ),
+              Align(
+                  alignment: Alignment.center,
+                  child: Icon(Icons.location_on, color: Colors.red, size: 25)),
               FutureBuilder(
                 builder: (c, s) {
                   if (s.connectionState == ConnectionState.waiting) {
@@ -90,6 +106,7 @@ class PotholeDetails extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     );
                   }
+                  if (s.data == null) return Container();
                   return Padding(
                     padding: const EdgeInsets.only(top: 10.0, right: 10),
                     child: Align(
@@ -110,6 +127,7 @@ class PotholeDetails extends StatelessWidget {
         ),
       );
     }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(args['title']),
@@ -127,7 +145,8 @@ class PotholeDetails extends StatelessWidget {
               ]
             : [],
       ),
-      body: Column(
+      body: Container(
+          child: Stack(
         children: [
           CachedNetworkImage(
             imageUrl: LocationHelper.generateLocationMapImage(
@@ -138,9 +157,12 @@ class PotholeDetails extends StatelessWidget {
             placeholder: (bctx, str) {
               return Center(child: CircularProgressIndicator());
             },
-          )
+          ),
+          Align(
+              alignment: Alignment.center,
+              child: Icon(Icons.location_on, color: Colors.red, size: 25))
         ],
-      ),
+      )),
       floatingActionButton:
           SpeedDial(animatedIcon: AnimatedIcons.view_list, children: [
         SpeedDialChild(

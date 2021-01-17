@@ -62,8 +62,10 @@ class _MapScreenState extends State<MapScreen> {
         .ref()
         .child('potholes')
         .child('$id.jpg'); // this returns a storage reference in firestore
-    await reference.putFile(
-        _pickedImage); // this code had .onComplete before. but in newer version of firebaseStorage it is no longer needed.
+    await reference.putFile(_pickedImage);
+    print("uploaded");
+    print(
+        id); // this code had .onComplete before. but in newer version of firebaseStorage it is no longer needed.
   }
 
   @override
@@ -86,36 +88,45 @@ class _MapScreenState extends State<MapScreen> {
           ),
         ),
         iconTheme: IconThemeData(color: Colors.black),
-        title: Text(
-          "Register a complaint",
-          style: TextStyle(color: Colors.black),
+        title: FittedBox(
+          child: Text(
+            "Register a complaint",
+            style: TextStyle(color: Colors.black),
+          ),
         ),
         actions: [
-          DropdownButton(
-            icon: Icon(Icons.photo),
-            onChanged: (itemIdentifier) {
-              if (itemIdentifier == 'camera') {
-                _pickImage(0);
-              }
-              if (itemIdentifier == 'gallery') {
-                _pickImage(1);
-              }
-            },
-            items: [
-              DropdownMenuItem(child: Text("camera"), value: "camera"),
-              DropdownMenuItem(child: Text("camera2"), value: 'gallery')
-            ],
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: DropdownButton(
+              icon: Icon(Icons.photo_camera),
+              onChanged: (itemIdentifier) {
+                if (itemIdentifier == 'camera') {
+                  _pickImage(0);
+                }
+                if (itemIdentifier == 'gallery') {
+                  _pickImage(1);
+                }
+              },
+              items: [
+                DropdownMenuItem(
+                    child: Row(
+                      children: [
+                        Icon(Icons.camera),
+                        Text("camera"),
+                      ],
+                    ),
+                    value: "camera"),
+                DropdownMenuItem(
+                    child: Row(
+                      children: [
+                        Icon(Icons.image),
+                        Text("Gallery"),
+                      ],
+                    ),
+                    value: 'gallery')
+              ],
+            ),
           ),
-          IconButton(
-              padding: EdgeInsets.only(right: 10),
-              tooltip: "Open Camera",
-              alignment: Alignment.center,
-              icon: Icon(
-                Icons.camera,
-                size: 28,
-                color: Colors.black,
-              ),
-              onPressed: () {}),
         ],
       ),
       body: Stack(
@@ -140,89 +151,100 @@ class _MapScreenState extends State<MapScreen> {
                     ),
                   },
           ),
-          if (_pickedImage != null) Image.file(_pickedImage),
+          if (_pickedImage != null)
+            Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 100, left: 10),
+                  child: Image.file(_pickedImage),
+                )),
           Container(
+            height: MediaQuery.of(context).size.height * 5 / 6,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                RaisedButton(
-                    color: Colors.red[300],
-                    onPressed: !_isEnabled
-                        ? null
-                        : () {
-                            var truth = false;
-                            var hasImage = false;
-                            String saveid;
-                            int upvotes;
+                Container(
+                  margin: EdgeInsets.only(bottom: 10),
+                  child: RaisedButton(
+                      color: Colors.red[300],
+                      onPressed: !_isEnabled
+                          ? null
+                          : () {
+                              var truth = false;
+                              var hasImage = false;
+                              String saveid;
+                              int upvotes;
 
-                            if (widget.potholes != null)
-                              for (DocumentSnapshot element
-                                  in widget.potholes) {
-                                if (element['address'] == address) {
-                                  if (element['hasImage']) {
-                                    hasImage = true;
+                              if (widget.potholes != null)
+                                for (DocumentSnapshot element
+                                    in widget.potholes) {
+                                  if (element['address'] == address) {
+                                    if (element['hasImage']) {
+                                      hasImage = true;
+                                    }
+                                    truth = true;
+                                    saveid = element['id'];
+                                    upvotes = element['upvotes'];
+                                    break;
                                   }
-                                  truth = true;
-                                  saveid = element['id'];
-                                  upvotes = element['upvotes'];
-                                  break;
                                 }
-                              }
-                            if (truth) {
-                              if (hasImage == false && _pickedImage != null) {
-                                uploadImage(saveid);
-                                hasImage = true;
-                              }
-                              FirebaseFirestore.instance
-                                  .collection('potholes')
-                                  .doc(saveid)
-                                  .update({
-                                'upvotes': upvotes + 1,
-                                'hasImage': hasImage
-                              });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  duration: Duration(
-                                    seconds: 10,
+                              if (truth) {
+                                if (hasImage == false && _pickedImage != null) {
+                                  uploadImage(saveid);
+                                  hasImage = true;
+                                }
+                                FirebaseFirestore.instance
+                                    .collection('potholes')
+                                    .doc(saveid)
+                                    .update({
+                                  'upvotes': upvotes + 1,
+                                  'hasImage': hasImage
+                                });
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    duration: Duration(
+                                      seconds: 10,
+                                    ),
+                                    content: Text(
+                                        "We have recieved multiple complaints about this road, and we are working on it!"),
                                   ),
-                                  content: Text(
-                                      "We have recieved multiple complaints about this road, and we are working on it!"),
-                                ),
-                              );
-                            } else {
-                              var id = FirebaseAuth.instance.currentUser.uid;
-                              if (_pickedImage == null)
-                                hasImage = false;
-                              else {
-                                hasImage = true;
-                                uploadImage(id);
+                                );
+                              } else {
+                                var id = FirebaseAuth.instance.currentUser.uid;
+                                if (_pickedImage == null)
+                                  hasImage = false;
+                                else {
+                                  hasImage = true;
+                                  uploadImage(id);
+                                }
+                                var doc = FirebaseFirestore.instance
+                                    .collection('potholes')
+                                    .doc();
+                                doc.set({
+                                  'id': doc.id,
+                                  'isFixed': false,
+                                  'upvotes': 1,
+                                  'address': address,
+                                  'downvotes': 0,
+                                  'latitude': _pickedLocation.latitude,
+                                  'longitude': _pickedLocation.longitude,
+                                  'upvoters': [id],
+                                  'downvoters': [],
+                                  "hasImage": hasImage,
+                                  'timeStamp': Timestamp.now()
+                                });
                               }
-                              var doc = FirebaseFirestore.instance
-                                  .collection('potholes')
-                                  .doc();
-                              doc.set({
-                                'id': doc.id,
-                                'isFixed': false,
-                                'upvotes': 1,
-                                'address': address,
-                                'downvotes': 0,
-                                'latitude': _pickedLocation.latitude,
-                                'longitude': _pickedLocation.longitude,
-                                'upvoters': [id],
-                                'downvoters': [],
-                                "hasImage": hasImage,
-                                'timeStamp': Timestamp.now()
-                              });
-                            }
-                            Navigator.of(context).pop();
-                          },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Text(
-                      "Report Complaint",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
+                              Navigator.of(context).pop();
+                            },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Text(
+                        "Report Complaint",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )),
+                ),
               ],
             ),
           ),
